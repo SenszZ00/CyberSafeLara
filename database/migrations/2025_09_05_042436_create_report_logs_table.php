@@ -11,6 +11,7 @@ return new class extends Migration {
             $table->foreignId('report_id')->constrained('reports')->onDelete('cascade');
             $table->string('incident_type');
             $table->text('resolution_details')->nullable();
+            $table->enum('status', ['pending', 'under review', 'resolved'])->default('pending');
             $table->foreignId('handled_by')->nullable()->constrained('users')->onDelete('set null'); // IT personnel
             $table->timestamp('log_timestamp')->useCurrent();
             $table->timestamps();
