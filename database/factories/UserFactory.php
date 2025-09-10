@@ -23,22 +23,24 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        // User types
+        $userTypes = ['Admin', 'IT', 'Student', 'Faculty', 'Staff'];
+
+        // College/Department enum options
+        $collegeDepartments = [
+            'CARS', 'CAS', 'CBA', 'CDM', 'CED', 'CTET', 
+            'CE', 'CT', 'CIC', 'CAE', 'SL',
+            'OUR', 'OSAS', 'ADO', 'AO', 'HRMO', 'PO'
+        ];
+
         return [
-            'name' => fake()->name(),
+            'username' => fake()->unique()->userName(),
             'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
+            'password' => static::$password ??= Hash::make('password'), // default password
+            'user_type' => fake()->randomElement($userTypes),
+            'college_department' => fake()->randomElement($collegeDepartments),
+            'date_joined' => now(),
             'remember_token' => Str::random(10),
         ];
-    }
-
-    /**
-     * Indicate that the model's email address should be unverified.
-     */
-    public function unverified(): static
-    {
-        return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
-        ]);
     }
 }
