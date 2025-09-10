@@ -8,13 +8,11 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('articles', function (Blueprint $table) {
             $table->id('article_id');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->string('title');
             $table->text('content');
             $table->string('category')->nullable();
             $table->string('keyword')->nullable();
-            $table->timestamp('submission_date')->useCurrent();
-            $table->timestamp('publication_date')->nullable();
             $table->enum('status', ['pending', 'rejected', 'approved'])->default('pending');
             $table->timestamps();
         });

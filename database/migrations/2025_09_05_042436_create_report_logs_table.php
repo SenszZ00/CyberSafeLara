@@ -8,12 +8,17 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('report_logs', function (Blueprint $table) {
             $table->id('log_id');
-            $table->foreignId('report_id')->constrained('reports')->onDelete('cascade');
+
+            // Foreign key to reports table
+            $table->foreignId('report_id')->constrained('reports')->onDelete('cascade')->onUpdate('cascade');
+
             $table->string('incident_type');
             $table->text('resolution_details')->nullable();
             $table->enum('status', ['pending', 'under review', 'resolved'])->default('pending');
-            $table->foreignId('handled_by')->nullable()->constrained('users')->onDelete('set null'); // IT personnel
-            $table->timestamp('log_timestamp')->useCurrent();
+
+            // Foreign key to users table (IT personnel)
+            $table->foreignId('it_personnel_id')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+
             $table->timestamps();
         });
     }
