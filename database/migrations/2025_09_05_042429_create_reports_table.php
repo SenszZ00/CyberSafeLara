@@ -24,7 +24,10 @@ return new class extends Migration {
             $table->string('attachment_name', 255)->nullable();
             $table->string('attachment_path', 500)->nullable();
 
-            $table->enum('status', ['pending', 'under review', 'resolved'])->default('pending');
+            $table->foreignId('report_status_id')
+                  ->constrained('report_statuses')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
             $table->timestamps();
         });
     }
