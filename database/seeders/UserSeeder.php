@@ -10,26 +10,28 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        // Admin
+        // 🔹 Admin
         DB::table('users')->insert([
             'username' => 'admin',
             'email' => 'admin@gmail.com',
             'password' => Hash::make('admin123'),
             'user_type' => 'Admin',
-            'college_department' => null,
+            'college_department_id' => null, // no department
             'date_joined' => now(),
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
-        // 17 IT personnel
-        for ($i = 1; $i <= 17; $i++) {
+        // 🔹 IT Personnel (one per college_department)
+        $departments = DB::table('college_departments')->get();
+
+        foreach ($departments as $index => $dept) {
             DB::table('users')->insert([
-                'username' => "it_personnel_$i",
-                'email' => "itp$i@gmail.com",
+                'username' => "it_personnel_" . ($index + 1),
+                'email' => "itp" . ($index + 1) . "@gmail.com",
                 'password' => Hash::make('itp123'),
                 'user_type' => 'IT_Personnel',
-                'college_department' => null,
+                'college_department_id' => $dept->id, // link to department
                 'date_joined' => now(),
                 'created_at' => now(),
                 'updated_at' => now(),
