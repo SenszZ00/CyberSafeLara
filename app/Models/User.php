@@ -47,4 +47,32 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // 🔹 Relationship with CollegeDepartment
+    public function collegeDepartment()
+    {
+        return $this->belongsTo(CollegeDepartment::class, 'college_department_id');
+    }
+
+    // 🔹 Relationship with Report
+    public function reports()
+    {
+        return $this->hasMany(Report::class, 'user_id');
+    }
+
+    // 🔹 Relationship with Article
+    public function articles() {
+        return $this->hasMany(Article::class, 'user_id');
+    }
+
+    // 🔹 Relationship with ReportLog
+    public function reportLogs() {
+        return $this->hasMany(ReportLog::class, 'user_id');
+    }
+    
+    // 🔹 Relationship with Feedback
+    public function feedbacks()
+    {
+        return $this->hasMany(Feedback::class, 'user_id');
+    }
 }
